@@ -1,25 +1,100 @@
-# RetroidJamesDSP
+<h1 align="center">
+  <img alt="Icon" width="75" src="https://github.com/thepbone/RootlessJamesDSP/blob/master/img/icons/web/icon-192.png?raw=true">
+  <br>
+  RetroidJamesDSP
+  <br>
+</h1>
 
-RetroidJamesDSP is an unofficial Retroid-oriented JamesDSP integration based on
-RootlessJamesDSP, with temporary-root audio setup and Retroid-specific presets.
+<h4 align="center">System-wide JamesDSP audio processing optimized for Retroid Android handhelds</h4>
 
-**Current release:** `1.0.0-rj1.6.14`  
-**Upstream base:** RootlessJamesDSP `1.6.14`  
-**License:** GPL-3.0
+<p align="center">
+  <img alt="Version" src="https://img.shields.io/badge/version-1.0.0--rj1.6.14-blue">
+  <img alt="Android" src="https://img.shields.io/badge/platform-Android-green">
+  <img alt="License" src="https://img.shields.io/github/license/Andiweli/RetroidJamesDSP">
+</p>
 
-The full project README will be expanded for the public GitHub release.
+## About
 
-## Build
+**RetroidJamesDSP** is a Retroid-specific version of [RootlessJamesDSP](https://github.com/timschneeb/RootlessJamesDSP), providing system-wide [JamesDSP](https://github.com/james34602/JamesDSPManager) audio processing on supported Retroid handhelds.
 
-Recommended Android Studio variant:
+It combines the JamesDSP processing engine with a Retroid-specific root audio configuration and speaker presets.
 
-`rootFdroidRelease`
+Based on **RootlessJamesDSP 1.6.14**.
 
-Command-line build on Windows:
+## Supported devices & presets
 
-```powershell
-.\gradlew.bat clean :app:assembleRootFdroidRelease
+Retroid-specific profiles are included for:
+
+- **Retroid Pocket 5**
+- **Retroid Pocket 6**
+- **Retroid Pocket Flip 2**
+  - Normal
+  - Quiet
+  - Sparkle
+
+Other Retroid devices may work, but are currently not specifically tuned.
+
+## Retroid integration
+
+Compared with standard RootlessJamesDSP, this version adds:
+
+- Retroid-specific system audio integration
+- System-wide JamesDSP processing through the root audio path
+- Automatic DSP initialization after reboot
+- AudioPolicy restart recovery
+- Automatic legacy audio-session recovery
+- Media-session warm-up for reliable DSP activation
+- One-click Retroid speaker presets
+- Retroid-specific setup screen
+
+The original rootless / MediaProjection mode is not used for the Retroid integration.
+
+## Installation
+
+1. Download and install the latest APK from **[Releases](https://github.com/Andiweli/RetroidJamesDSP/releases)**.
+2. Open **RetroidJamesDSP**.
+3. Run the Retroid audio setup.
+4. Reboot the device.
+5. Open RetroidJamesDSP and select the desired Retroid preset.
+
+A reboot is recommended after installing or updating the application.
+
+> **Important:** RetroidJamesDSP modifies the device's audio configuration and requires the supported Retroid root / temporary-root environment.
+
+## Building
+
+Build the Retroid release variant with:
+
+```bash
+./gradlew clean :app:assembleRootFdroidRelease
 ```
 
-See `BUILDING.md` for additional build notes and `THIRD_PARTY_NOTICES.md` for
-upstream credits and licensing information.
+The APK is created under:
+
+```text
+app/build/outputs/apk/root/fdroid/release/
+```
+
+See [BUILDING.md](BUILDING.md) for additional build information.
+
+## Credits
+
+RetroidJamesDSP builds upon several open-source projects:
+
+- **[RootlessJamesDSP](https://github.com/timschneeb/RootlessJamesDSP)** — Tim Schneeberger
+- **[JamesDSP / libjamesdsp](https://github.com/james34602/JamesDSPManager)** — James Fung
+- **[jdsp4rp5.app](https://github.com/kokoko3k/jdsp4rp5.app)** — kokoko3k
+
+Parts of the Retroid integration are based on work from `jdsp4rp5.app`. Its author has explicitly granted permission for those contributions to be used under GPL-3.0 in this project.
+
+See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for details.
+
+## License
+
+RetroidJamesDSP is distributed under the **GNU General Public License v3.0**.
+
+See [LICENSE](LICENSE) for details.
+
+---
+
+**RetroidJamesDSP is an unofficial community project and is not affiliated with or endorsed by Retroid, James Fung, or the RootlessJamesDSP project.**
