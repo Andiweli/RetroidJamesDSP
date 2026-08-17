@@ -34,6 +34,9 @@ Retroid-specific profiles are included for:
 
 Other Retroid devices may work, but are currently not specifically tuned.
 
+<img width="1920" height="1080" alt="image0" src="https://github.com/user-attachments/assets/baf49fcd-ee28-4840-933c-59adfbc19790" />
+
+
 ## Retroid integration
 
 Compared with standard RootlessJamesDSP, this version adds:
