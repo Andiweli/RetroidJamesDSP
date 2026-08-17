@@ -181,19 +181,6 @@
 
     <string name="convolver_enable">Convolver</string>
     <string name="convolver_impulse">Impulse response</string>
-    <string name="convolver_sample_rate_files">Sample-rate impulse responses</string>
-    <string name="convolver_sample_rate_files_summary">Assign a different impulse response to each output sample rate</string>
-    <string name="convolver_sample_rate_files_count">%1$d sample-rate assignments</string>
-    <string name="convolver_processing_rate">Current processing</string>
-    <string name="convolver_processing_rate_status">%1$s kHz • Selected IR: %2$s</string>
-    <string name="convolver_sample_rate_select_file">Impulse response for %1$s kHz</string>
-    <string name="convolver_sample_rate_use_default">None (use default impulse response)</string>
-    <string name="convolver_sample_rate_unassigned">None (default)</string>
-    <string name="convolver_sample_rate_processing_status">Processing: %1$s kHz • Selected IR: %2$s</string>
-    <string name="convolver_sample_rate_processing_inactive">Processing inactive</string>
-    <string name="convolver_sample_rate_label">%1$s kHz - %2$s</string>
-    <string name="convolver_sample_rate_disabled">Convolver disabled</string>
-    <string name="convolver_sample_rate_no_file">No impulse response</string>
     <string name="convolver_advanced_editing">Advanced waveform editing</string>
     <string name="convolver_convolution_mode">Impulse response optimization</string>
     <string name="convolver_convolution_mode_original">Original</string>
@@ -438,6 +425,8 @@
     <string name="credits_dsp">JamesDSP core algorithm library developed by</string>
     <string name="credits_project_page">Visit project website on GitHub</string>
     <string name="credits_project_page_summary">Report issues, keep yourself updated, and read the source code</string>
+    <string name="credits_upstream_project_page">Upstream project: RootlessJamesDSP</string>
+    <string name="credits_upstream_project_page_summary">Original project by Tim Schneeberger / ThePBone</string>
     <string name="credits_project_play_page">Visit RootlessJamesDSP on Google Play</string>
     <string name="credits_project_play_page_summary">Search for new updates</string>
     <string name="credits_project_check_update">Check for new updates…</string>

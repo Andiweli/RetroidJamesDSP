@@ -1,2 +1,0 @@
-* Fixed minor bugs and crashes
-* Added fastlane structure for F-Droid deployment

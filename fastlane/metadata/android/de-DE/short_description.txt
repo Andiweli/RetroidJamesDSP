@@ -1,1 +1,0 @@
-Systemweite JamesDSP-Audioverarbeitung für Android-Geräte ohne Root.

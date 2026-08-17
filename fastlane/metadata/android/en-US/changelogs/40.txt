@@ -1,3 +1,0 @@
-* Disabled new background benchmark operations to prevent crashes
-* Play store version only: Disabled some compat features to comply with Play Store's policy
-* Minor bug fixes

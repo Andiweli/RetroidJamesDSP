@@ -8,12 +8,10 @@
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" tools:targetApi="upside_down_cake" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" tools:targetApi="upside_down_cake" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <uses-permission android:name="android.permission.DUMP" tools:ignore="ProtectedPermissions" />
 
@@ -53,7 +51,7 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
             <intent-filter>
@@ -213,6 +211,31 @@
             android:excludeFromRecents="true"
             android:label=""
             android:theme="@style/Theme.Transparent" />
+        <!-- Retroid private one-app integration -->
+        <activity
+            android:name=".retroid.RetroidSetupActivity"
+            android:exported="true"
+            android:icon="@mipmap/ic_dsp_launcher"
+            android:label="Retroid JamesDSP"
+            android:theme="@style/Theme.RootlessJamesDSP">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".retroid.RetroidBootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".retroid.RetroidAudioPolicyReceiver"
+            android:exported="true" />
 
         <!-- Services -->
         <service

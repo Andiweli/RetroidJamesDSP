@@ -1,2 +1,0 @@
-* Prevent audio echo on some devices
-* Translation updates

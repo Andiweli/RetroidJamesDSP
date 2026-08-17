@@ -14,7 +14,6 @@ import me.timschneeberger.rootlessjamesdsp.model.ParametricEqBandList
 import me.timschneeberger.rootlessjamesdsp.model.ProcessorMessage
 import me.timschneeberger.rootlessjamesdsp.preference.FileLibraryPreference
 import me.timschneeberger.rootlessjamesdsp.utils.BiquadUtils
-import me.timschneeberger.rootlessjamesdsp.utils.ConvolverSampleRateFiles
 import me.timschneeberger.rootlessjamesdsp.utils.Constants
 import me.timschneeberger.rootlessjamesdsp.utils.extensions.ContextExtensions.sendLocalBroadcast
 import timber.log.Timber
@@ -118,7 +117,6 @@ abstract class JamesDspBaseEngine(val context: Context, val callbacks: JamesDspW
             cache.select(Constants.PREF_CONVOLVER)
             val convolverEnabled = cache.get(R.string.key_convolver_enable, false)
             val convolverFile = cache.get(R.string.key_convolver_file, "")
-            val convolverSampleRateFiles = cache.get(R.string.key_convolver_sample_rate_files, "")
             val convolverAdvImp = cache.get(R.string.key_convolver_adv_imp, Constants.DEFAULT_CONVOLVER_ADVIMP)
             val convolverMode = cache.get(R.string.key_convolver_mode, "0").toInt()
 
@@ -139,17 +137,7 @@ abstract class JamesDspBaseEngine(val context: Context, val callbacks: JamesDspW
                     Constants.PREF_TUBE -> setVacuumTube(tubeEnabled, tubeDrive)
                     Constants.PREF_DDC -> setVdc(ddcEnabled, ddcFile)
                     Constants.PREF_LIVEPROG -> setLiveprog(liveProgEnabled, liveprogFile)
-                    Constants.PREF_CONVOLVER -> {
-                        val mappedFile = ConvolverSampleRateFiles.resolve(
-                            convolverSampleRateFiles,
-                            sampleRate.toInt(),
-                            convolverFile,
-                        )
-                        val selectedFile = mappedFile.takeIf {
-                            File(FileLibraryPreference.createFullPathCompat(context, it)).isFile
-                        } ?: convolverFile
-                        setConvolver(convolverEnabled, selectedFile, convolverMode, convolverAdvImp)
-                    }
+                    Constants.PREF_CONVOLVER -> setConvolver(convolverEnabled, convolverFile, convolverMode, convolverAdvImp)
                     else -> true
                 }
 
@@ -215,11 +203,10 @@ abstract class JamesDspBaseEngine(val context: Context, val callbacks: JamesDspW
     fun setConvolver(enable: Boolean, impulseResponsePath: String, optimizationMode: Int, waveEditStr: String): Boolean
     {
         val path = FileLibraryPreference.createFullPathCompat(context, impulseResponsePath)
-        val targetSampleRate = sampleRate.toInt()
 
         // Handle disabled state before everything else
         if(!enable || !File(path).exists() || File(path).isDirectory) {
-            setConvolverInternal(false, FloatArray(0), 0, 0, 0, targetSampleRate)
+            setConvolverInternal(false, FloatArray(0), 0, 0, 0)
             return true
         }
 
@@ -247,7 +234,7 @@ abstract class JamesDspBaseEngine(val context: Context, val callbacks: JamesDspW
         val info = IntArray(4)
         val imp = JdspImpResToolbox.ReadImpulseResponseToFloat(
             path,
-            targetSampleRate,
+            sampleRate.toInt(),
             info,
             optimizationMode,
             advSetting
@@ -255,7 +242,7 @@ abstract class JamesDspBaseEngine(val context: Context, val callbacks: JamesDspW
 
         if(imp == null) {
             Timber.e("setConvolver: Failed to read IR")
-            setConvolverInternal(false, FloatArray(0), 0, 0, 0, targetSampleRate)
+            setConvolverInternal(false, FloatArray(0), 0, 0, 0)
             callbacks?.onConvolverParseError(ProcessorMessage.ConvolverErrorCode.Corrupted)
             return false
         }
@@ -263,7 +250,7 @@ abstract class JamesDspBaseEngine(val context: Context, val callbacks: JamesDspW
         // check frame count
         if(info[1] == 0) {
             Timber.e("setConvolver: IR has no frames")
-            setConvolverInternal(false, FloatArray(0), 0, 0, 0, targetSampleRate)
+            setConvolverInternal(false, FloatArray(0), 0, 0, 0)
             callbacks?.onConvolverParseError(ProcessorMessage.ConvolverErrorCode.NoFrames)
             return false
         }
@@ -274,7 +261,7 @@ abstract class JamesDspBaseEngine(val context: Context, val callbacks: JamesDspW
             callbacks?.onConvolverParseError(ProcessorMessage.ConvolverErrorCode.AdvParamsInvalid)
         }
 
-        return setConvolverInternal(true, imp, info[0], info[1], info[2], targetSampleRate)
+        return setConvolverInternal(true, imp, info[0], info[1], info[2])
     }
 
     fun setGraphicEq(enable: Boolean, bands: String): Boolean
@@ -411,14 +398,7 @@ abstract class JamesDspBaseEngine(val context: Context, val callbacks: JamesDspW
     protected abstract fun setMultiEqualizerInternal(enable: Boolean, filterType: Int, interpolationMode: Int, bands: DoubleArray): Boolean
     protected abstract fun setCompanderInternal(enable: Boolean, timeConstant: Float, granularity: Int, tfTransforms: Int, bands: DoubleArray): Boolean
     protected abstract fun setVdcInternal(enable: Boolean, vdc: String): Boolean
-    protected abstract fun setConvolverInternal(
-        enable: Boolean,
-        impulseResponse: FloatArray,
-        irChannels: Int,
-        irFrames: Int,
-        irCrc: Int,
-        irSampleRate: Int,
-    ): Boolean
+    protected abstract fun setConvolverInternal(enable: Boolean, impulseResponse: FloatArray, irChannels: Int, irFrames: Int, irCrc: Int): Boolean
     protected abstract fun setGraphicEqInternal(enable: Boolean, bands: String): Boolean
     protected abstract fun setLiveprogInternal(enable: Boolean, name: String, script: String): Boolean
 

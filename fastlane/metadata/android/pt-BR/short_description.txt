@@ -1,1 +1,0 @@
-Equalizador do sistema James para dispositivos Android sem raiz.

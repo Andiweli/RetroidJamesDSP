@@ -1,1 +1,0 @@
-JamesDSP engine pro zpracování zvuku na Android zařízeních bez rootu.

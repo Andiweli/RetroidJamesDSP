@@ -1,4 +1,0 @@
-* libjamesdsp updated
-    * New resampler implementation
-
-* Translation updates

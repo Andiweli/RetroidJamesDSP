@@ -1,1 +1,0 @@
-Motore di elaborazione audio JamesDSP per dispositivi Android non rootati.

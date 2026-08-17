@@ -1,19 +1,17 @@
 import org.gradle.api.Project
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
-import java.util.TimeZone
 import java.util.Date
+import java.util.TimeZone
 
-// Git is needed in your system PATH for these commands to work.
-// If it's not installed, you can return a random value as a workaround
+// Git metadata is used when available. Exported source archives may not contain
+// a .git directory, so release builds must remain possible with safe fallbacks.
 fun Project.getCommitCount(): String {
-    return runCommand("git rev-list --count HEAD")
-    // return "1"
+    return runCommandOrFallback("git rev-list --count HEAD", "1")
 }
 
 fun Project.getGitSha(): String {
-    return runCommand("git rev-parse --short HEAD")
-    // return "1"
+    return runCommandOrFallback("git rev-parse --short HEAD", "unknown")
 }
 
 fun Project.getBuildTime(): String {
@@ -22,11 +20,25 @@ fun Project.getBuildTime(): String {
     return df.format(Date())
 }
 
-fun Project.runCommand(command: String): String {
-    val byteOut = ByteArrayOutputStream()
-    project.exec {
-        commandLine = command.split(" ")
-        standardOutput = byteOut
+fun Project.runCommandOrFallback(command: String, fallback: String): String {
+    return try {
+        val byteOut = ByteArrayOutputStream()
+        val byteErr = ByteArrayOutputStream()
+        val result = project.exec {
+            commandLine = command.split(" ")
+            standardOutput = byteOut
+            errorOutput = byteErr
+            isIgnoreExitValue = true
+        }
+
+        if (result.exitValue == 0) {
+            String(byteOut.toByteArray()).trim().ifBlank { fallback }
+        } else {
+            logger.warn("Command failed; using fallback '$fallback': $command")
+            fallback
+        }
+    } catch (ex: Exception) {
+        logger.warn("Command unavailable; using fallback '$fallback': $command", ex)
+        fallback
     }
-    return String(byteOut.toByteArray()).trim()
 }

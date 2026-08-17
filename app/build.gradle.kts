@@ -15,14 +15,14 @@ android {
 
     val SUPPORTED_ABIS = setOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
     compileSdk = AndroidConfig.compileSdk
-    project.setProperty("archivesBaseName", "RootlessJamesDSP-v${AndroidConfig.versionName}")
+    project.setProperty("archivesBaseName", "RetroidJamesDSP-v${AndroidConfig.versionName}")
 
     defaultConfig {
         targetSdk = AndroidConfig.targetSdk
         versionCode = AndroidConfig.versionCode
         versionName = AndroidConfig.versionName
 
-        manifestPlaceholders["label"] = "RootlessJamesDSP"
+        manifestPlaceholders["label"] = "Retroid JamesDSP"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -46,7 +46,7 @@ android {
 
     buildTypes {
         getByName("debug") {
-            applicationIdSuffix = ".debug"
+            applicationIdSuffix = ""
             versionNameSuffix = "-${getCommitCount()}"
             manifestPlaceholders["crashlyticsCollectionEnabled"] = "false"
         }
@@ -88,7 +88,7 @@ android {
         create("rootless") {
             dimension = "version"
 
-            manifestPlaceholders["label"] = "RootlessJamesDSP"
+            manifestPlaceholders["label"] = "Retroid JamesDSP"
             applicationId = "me.timschneeberger.rootlessjamesdsp"
             AndroidConfig.minSdk = 29
             minSdk = AndroidConfig.minSdk
@@ -98,8 +98,8 @@ android {
         create("root") {
             dimension = "version"
 
-            manifestPlaceholders["label"] = "JamesDSP"
-            project.setProperty("archivesBaseName", "JamesDSP-v${AndroidConfig.versionName}-${AndroidConfig.versionCode}")
+            manifestPlaceholders["label"] = "Retroid JamesDSP"
+            project.setProperty("archivesBaseName", "RetroidJamesDSP-v${AndroidConfig.versionName}-${AndroidConfig.versionCode}")
             applicationId = "james.dsp"
             AndroidConfig.minSdk = 26
             minSdk = AndroidConfig.minSdk
@@ -118,7 +118,7 @@ android {
 
     sourceSets {
         // Use different app icon for non-release builds
-        getByName("debug").res.srcDirs("src/debug/res")
+        // Retroid private build: app/src/debug/res is removed below so the launcher icon has no DEBUG overlay.
     }
 
     // Export multiple CPU architecture split apks
@@ -248,11 +248,11 @@ dependencies {
     implementation(project(":hidden-api-impl"))
 
     // Debug utilities
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.10")
-    debugImplementation("com.plutolib:pluto:2.0.9")
+    // Retroid private build: LeakCanary disabled to avoid debug leak notifications.
+    debugImplementation("com.plutolib:pluto-no-op:2.0.9")
     "previewImplementation"("com.plutolib:pluto-no-op:2.0.9")
     releaseImplementation("com.plutolib:pluto-no-op:2.0.9")
-    debugImplementation("com.plutolib.plugins:bundle-core:2.0.9")
+    debugImplementation("com.plutolib.plugins:bundle-core-no-op:2.0.9")
     "previewImplementation"("com.plutolib.plugins:bundle-core-no-op:2.0.9")
     releaseImplementation("com.plutolib.plugins:bundle-core-no-op:2.0.9")
 

@@ -1,0 +1,19 @@
+Retroid integration relicensing permission
+==========================================
+
+Upstream project: jdsp4rp5.app
+Author / maintainer: kokoko3k
+Original project license: GNU General Public License v2.0
+
+The RetroidJamesDSP maintainer obtained explicit permission from kokoko3k to use
+kokoko3k's jdsp4rp5.app contributions under GPLv3. The permission was relayed to
+this project on 2026-08-17 as follows:
+
+"Thanks for asking!
+my app is gpl2, but it is definitely ok for me to use gpl3.
+
+cheers!"
+
+This file is retained with the source tree to document that permission. It applies
+to contributions for which kokoko3k holds the relevant copyright. Third-party
+components retain their own applicable licenses and copyright notices.

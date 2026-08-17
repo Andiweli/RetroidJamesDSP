@@ -28,6 +28,7 @@ import me.timschneeberger.rootlessjamesdsp.model.preference.ThemeMode
 import me.timschneeberger.rootlessjamesdsp.model.room.AppBlocklistDatabase
 import me.timschneeberger.rootlessjamesdsp.model.room.AppBlocklistRepository
 import me.timschneeberger.rootlessjamesdsp.service.RootAudioProcessorService
+import me.timschneeberger.rootlessjamesdsp.retroid.RetroidDspSettingsGuard
 import me.timschneeberger.rootlessjamesdsp.session.dump.DumpManager
 import me.timschneeberger.rootlessjamesdsp.session.root.RootSessionDatabase
 import me.timschneeberger.rootlessjamesdsp.utils.Constants
@@ -132,6 +133,7 @@ open class MainApplication : Application(), SharedPreferences.OnSharedPreference
         }
 
         Timber.i("====> Application starting up")
+        RetroidDspSettingsGuard.init(this)
 
         val dumpFile = File(filesDir, "dump.txt")
         if(dumpFile.exists()) {

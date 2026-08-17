@@ -1,19 +1,34 @@
+# Android Studio / IntelliJ
 *.iml
-.gradle
-/local.properties
-/.idea
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+.idea/
+
+# Gradle
+.gradle/
+**/.gradle/
+**/build/
+
+# Android local configuration
 local.properties
-/hidden-refine-api/build/
-/app/src/main/cpp/libjamesdsp/Main/DSPManager/.idea
-/app/src/main/cpp/libjamesdsp/Main/DSPManager/DSPManager.iml
+captures/
+.externalNativeBuild/
+**/.externalNativeBuild/
+.cxx/
+**/.cxx/
+
+# Kotlin local state
+.kotlin/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Local signing material
+*.jks
+*.keystore
+keystore.properties
+
+# Native DSP source-local IDE files
+app/src/main/cpp/libjamesdsp/Main/DSPManager/.idea/
+app/src/main/cpp/libjamesdsp/Main/DSPManager/DSPManager.iml

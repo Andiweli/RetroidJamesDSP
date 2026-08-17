@@ -1,3 +1,0 @@
-* Fixed crash caused by racing-condition when turning off JamesDSP
-* Several minor bug fixes
-* Translation updates

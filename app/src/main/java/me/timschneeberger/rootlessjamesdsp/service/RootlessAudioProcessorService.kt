@@ -85,8 +85,6 @@ class RootlessAudioProcessorService : BaseAudioProcessorService() {
     // Session management
     private lateinit var sessionManager: RootlessSessionManager
     private var sessionLossRetryCount = 0
-    @Volatile
-    private var notificationSessions: Array<IEffectSession> = emptyArray()
 
     // Idle detection
     private var isProcessorIdle = false
@@ -329,11 +327,9 @@ class RootlessAudioProcessorService : BaseAudioProcessorService() {
             isProcessorIdle = sessionList.size == 0
             Timber.d("onSessionChanged: isProcessorIdle=$isProcessorIdle")
 
-            notificationSessions = sessionList.values.toTypedArray()
-
             ServiceNotificationHelper.pushServiceNotification(
                 this@RootlessAudioProcessorService,
-                notificationSessions
+                sessionList.map { it.value }.toTypedArray()
             )
         }
     }
@@ -463,12 +459,7 @@ class RootlessAudioProcessorService : BaseAudioProcessorService() {
         // TODO Move all audio-related code to C++
         recorderThread = Thread {
             try {
-                // Rebuilding the processing pipeline must not overwrite the current
-                // session-aware notification with a false "idle" state.
-                ServiceNotificationHelper.pushServiceNotification(
-                    applicationContext,
-                    notificationSessions,
-                )
+                ServiceNotificationHelper.pushServiceNotification(applicationContext, arrayOf())
 
                 val floatBuffer = FloatArray(bufferSize)
                 val floatOutBuffer = FloatArray(bufferSize)

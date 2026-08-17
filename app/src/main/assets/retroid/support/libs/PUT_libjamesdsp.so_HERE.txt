@@ -1,0 +1,1 @@
+Copy libjamesdsp.so from jdsp4rp5.app or RootlessJamesDSP root build assets here before applying/building.
